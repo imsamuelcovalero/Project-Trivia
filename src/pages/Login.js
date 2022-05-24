@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setUserLogin } from '../redux/actions';
+import getToken from '../helpers/tokenApi';
+import userToken from '../helpers/saveToken';
 
 class Login extends Component {
   constructor() {
@@ -19,9 +21,12 @@ class Login extends Component {
     });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     const { history, userLogin } = this.props;
     event.preventDefault();
+    const newToken = await getToken();
+    const { token } = newToken;
+    userToken(token);
     userLogin(this.state);
     history.push('/Game');
   }
@@ -84,6 +89,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (userData) => dispatch(setUserLogin(userData)),
+  // userToken: (token) => dispatch(setUserToken(token)),
 });
 
 Login.propTypes = {
@@ -91,6 +97,7 @@ Login.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   userLogin: PropTypes.func.isRequired,
+  // userToken: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

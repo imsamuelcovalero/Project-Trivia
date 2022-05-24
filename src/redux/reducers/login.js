@@ -4,6 +4,8 @@ import { SET_USER_LOGIN } from '../actions';
 const INITIAL_STATE = {
   email: '',
   name: '',
+  assertions: 0,
+  score: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
