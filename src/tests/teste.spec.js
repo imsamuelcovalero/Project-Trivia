@@ -57,5 +57,6 @@ describe('testa se a página de login contém os campos necessários', () => {
 
     userEvent.click(buttonEl);
     expect(history.location.pathname).toEqual('/Game');
+
   })
 })
