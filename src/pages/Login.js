@@ -34,6 +34,11 @@ class Login extends Component {
     return true;
   };
 
+  goToSettings = () => {
+    const { history } = this.props;
+    history.push('/Settings');
+  }
+
   render() {
     const { email, name } = this.state;
     return (
@@ -65,6 +70,13 @@ class Login extends Component {
             Play
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => { this.goToSettings(); } }
+        >
+          Settings
+        </button>
       </div>
     );
   }
