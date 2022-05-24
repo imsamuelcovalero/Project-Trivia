@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './trivia.png';
 import './App.css';
+import Content from './routers/Content';
 
 // Começa o projeto Trivia
 export default function App() {
@@ -10,6 +11,7 @@ export default function App() {
         <img src={ logo } className="App-logo" alt="logo" />
         <p>SUA VEZ</p>
       </header>
+      <Content />
     </div>
   );
 }
