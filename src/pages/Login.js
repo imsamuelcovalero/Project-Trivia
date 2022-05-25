@@ -78,7 +78,7 @@ class Login extends Component {
         <button
           type="button"
           data-testid="btn-settings"
-          onClick={ () => { this.goToSettings(); } }
+          onClick={ () => this.goToSettings() }
         >
           Settings
         </button>

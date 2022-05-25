@@ -1,18 +1,10 @@
-import { screen } from '@testing-library/react'
+import { findByRole, fireEvent, getByText, screen } from '@testing-library/react'
 import React from 'react'
-import { renderWithRouterAndRedux } from '../helpers/renderWithRouterAndRedux'
+import renderWithRouterAndRedux from '../helpers/renderWithRouterAndRedux'
 import App from '../App'
-import logo from '../trivia.png';
 import userEvent from '@testing-library/user-event'
 
 describe('testa se a página de login contém os campos necessários', () => {
-  test('testa se existe uma imagem na página', () => {
-    renderWithRouterAndRedux(<App />)
-    const imgEl = screen.getByRole('img', {name: 'logo'});
-
-    expect(imgEl).toBeInTheDocument()
-    expect(imgEl).toHaveAttribute('src', logo);
-  })
   test('testa se a página possui dois inputs para o usuário', () => {
     renderWithRouterAndRedux(<App />)
     const InputEl = screen.getAllByRole('textbox');
@@ -63,9 +55,26 @@ describe('testa se a página de login contém os campos necessários', () => {
     userEvent.type(input[1], userEmail);
     expect(buttonEl).not.toHaveAttribute('disabled');
   })
+  test('testa se ao preencher apenas o email, o botão está desabilitado', () => {
+    renderWithRouterAndRedux(<App />);
+    const userEmail = 'pedro@gmail.com'
+    const buttonEl = screen.getByRole('button', { name: 'Play' });
 
-  test('testa se ao clicar no botão, ele redireciona para outra página', () => {
-    const { history } = renderWithRouterAndRedux(<App />);
+    const input = screen.getAllByRole('textbox');
+    userEvent.type(input[1], userEmail);
+    expect(buttonEl).toHaveAttribute('disabled');
+  })
+  test('testa se ao preencher apenas o name, o botão está desabilitado', () => {
+    renderWithRouterAndRedux(<App />);
+    const userName = 'pedro'
+    const buttonEl = screen.getByRole('button', { name: 'Play' });
+
+    const input = screen.getAllByRole('textbox');
+    userEvent.type(input[1], userName);
+    expect(buttonEl).toHaveAttribute('disabled');
+  })
+  test('testa se ao clicar no botão, ele redireciona para outra página', async () => {
+    renderWithRouterAndRedux(<App />);
     const userName = 'pedro'
     const userEmail = 'pedro@gmail.com'
     const buttonEl = screen.getByRole('button', { name: 'Play' });
@@ -73,13 +82,8 @@ describe('testa se a página de login contém os campos necessários', () => {
 
     userEvent.type(input[0], userName);
     userEvent.type(input[1], userEmail);
-
-    userEvent.click(buttonEl);
-
-    setInterval(() => {
-      expect(history.location.pathname).toEqual('/Game');
-    }, 2000);
-
+    fireEvent.click(buttonEl)
+    await screen.findByText('Game');
   })
 
   test('testa se possui um botão com o texto Settings', () => {
@@ -90,15 +94,10 @@ describe('testa se a página de login contém os campos necessários', () => {
   })
   test('testa se ao clicar no botão, ele redireciona para página Settings', () => {
     const { history } = renderWithRouterAndRedux(<App />);
-    const userName = 'pedro'
-    const userEmail = 'pedro@gmail.com'
     const buttonEl = screen.getByRole('button', { name: 'Settings' });
-    const input = screen.getAllByRole('textbox');
 
-    userEvent.type(input[0], userName);
-    userEvent.type(input[1], userEmail);
     userEvent.click(buttonEl);
-
     expect(history.location.pathname).toEqual('/Settings')
+    
   })
 })
