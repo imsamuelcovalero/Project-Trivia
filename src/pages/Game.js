@@ -14,6 +14,7 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
+      isButtonsColorHidden: 'hidden',
     };
   }
 
@@ -61,16 +62,30 @@ class Game extends Component {
   }
 
   handleClickAnswer = () => {
-    console.log('ok');
+    this.setState({
+      isButtonsColorHidden: 'visible',
+    });
   }
 
   answerButtonSetup = () => {
-    const { buttonDisable, answers } = this.state;
+    const { buttonDisable, answers, isButtonsColorHidden } = this.state;
+
+    const correctButtonStyle = {
+      border: '3px solid',
+      borderColor: 'rgb(6, 240, 15)',
+      // visibility: `${isButtonsColorHidden}`,
+    };
+    const incorrectButtonStyle = {
+      border: 3px solid red,
+      // visibility: 'visible',
+    };
+
     return answers.map((answer) => {
       if (answer.veracity === 'incorrect') {
         return (
           <button
             key={ answer.id }
+            style={ correctButtonStyle }
             data-testid={ `wrong-answer-${answer.id}` }
             type="button"
             onClick={ this.handleClickAnswer }
@@ -83,6 +98,7 @@ class Game extends Component {
       return (
         <button
           key={ answer.id }
+          style={ incorrectButtonStyle }
           data-testid="correct-answer"
           type="button"
           onClick={ this.handleClickAnswer }
