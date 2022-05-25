@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import { setUserLogin } from '../redux/actions';
+import saveRanking from '../helpers/saveRanking';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
       name: '',
+      email: '',
     };
   }
 
@@ -22,6 +24,13 @@ class Login extends Component {
   handleSubmit = (event) => {
     const { history, userLogin } = this.props;
     event.preventDefault();
+    const { email } = this.state;
+    console.log('userEmail', email);
+    const hash = md5(email).toString();
+    console.log('hash', hash);
+    const imgGravatar = `https://www.gravatar.com/avatar/${hash}`;
+    console.log('imgGravatar', imgGravatar);
+    saveRanking(imgGravatar);
     userLogin(this.state);
     history.push('/Game');
   }

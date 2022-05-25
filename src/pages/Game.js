@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../components/Header';
 // import { connect } from 'react-redux';
 
 class Game extends Component {
@@ -6,6 +7,7 @@ class Game extends Component {
     return (
       <div>
         <h1>Game</h1>
+        <Header />
       </div>
     );
   }

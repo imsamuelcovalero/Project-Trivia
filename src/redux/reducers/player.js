@@ -2,17 +2,26 @@
 import { SET_USER_LOGIN } from '../actions';
 
 const INITIAL_STATE = {
-  email: '',
   name: '',
+  assertions: 0,
+  score: 0,
+  email: '',
+  ranking: [{
+    name: '',
+    score: 0,
+    picture: '',
+  }],
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SET_USER_LOGIN:
     return { ...state, ...action.payload };
+  // case SET_USER_LOGIN:
+  //   return { ...state, ...action.payload };
   default:
     return state;
   }
 };
 
-export default userReducer;
+export default playerReducer;

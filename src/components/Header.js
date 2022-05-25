@@ -1,44 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import md5 from 'crypto-js/md5';
+import getRanking from '../helpers/getRanking';
 
 // Cria uma classe para mostrar a Header da página
 class Header extends Component {
-  constructor() {
-    super();
-    this.state = {
-      userScore: 0,
-    };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     profilePicture: '',
+  //   };
+  // }
 
-  // somaTotalPrice = (currentExpense) => {
-  //   console.log(currentExpense);
-  //   const { totalPrice } = this.state;
-  //   const { currentPrice, expenseValue } = currentExpense;
-  //   // const xablau = currentExpense.expenseValue;
-  //   console.log(expenseValue);
-  //   console.log(currentPrice);
-  //   // const somaDespesa = currentExpense[0].expenseValue * currentExpense[0].currentPrice;
-  //   // this.setState({
-  //   //   totalPrice: totalPrice + somaDespesa,
-  //   // }, () => totalPrice);
+  // componentDidMount = () => {
+  //   // const { userEmail } = this.props;
+  //   // console.log('userEmail', userEmail);
+  //   // const hash = md5(userEmail).toString();
+  //   // console.log('hash', hash);
+  //   // const imgGravatar = `https://www.gravatar.com/avatar/${hash}`;
+  //   // console.log('imgGravatar', imgGravatar);
+  //   const ranking = getRanking();
+  //   const profilePicture = ranking.picture;
+  //   this.setState({
+  //     profilePicture: imgGravatar,
+  //   });
   // }
 
   render() {
-    const { userScore } = this.state;
-    const { userName, expense } = this.props;
-    // console.log(expense);
+    // const { profilePicture } = this.state;
+    const { userName, userScore } = this.props;
+
+    const ranking = getRanking();
+    console.log('ranking', ranking);
+    const profilePicture = ranking[0].picture;
+    console.log('profilePicture', profilePicture);
 
     return (
       <header>
-        <h4 data-testid="header-profile-picture">
-          { userName }
-        </h4>
+        <img data-testid="header-profile-picture" src={ profilePicture } alt="Gravatar" />
         <h4 data-testid="header-player-name">
           { userName }
         </h4>
         <h4 data-testid="header-score">
-          { userName }
+          { userScore }
         </h4>
       </header>
     );
@@ -46,13 +51,15 @@ class Header extends Component {
 }
 
 const mapStateToProps = (globalState) => ({
-  userName: globalState.login.userName,
-  expense: globalState.wallet.expenses,
+  userName: globalState.player.name,
+  // userEmail: globalState.player.email,
+  userScore: globalState.player.score,
 });
 
 Header.propTypes = {
   userName: PropTypes.string.isRequired,
-  expense: PropTypes.arrayOf(PropTypes.number).isRequired,
+  // userEmail: PropTypes.string.isRequired,
+  userScore: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);
