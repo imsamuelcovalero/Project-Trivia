@@ -30,7 +30,6 @@ class Game extends Component {
       localStorage.clear();
       history.push('/');
     }
-    console.log(questionsPack);
     /* const min = 0;
     const questionMax = questionsPack.results.length;
     const randomQuestion = min + Math.random() * (questionMax - min); */
@@ -112,7 +111,6 @@ class Game extends Component {
 
   render() {
     const { question, category, loading } = this.state;
-    console.log(category);
     return (
       <section>
         <h1>Game</h1>
@@ -137,7 +135,6 @@ class Game extends Component {
     );
   }
 }
-
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
