@@ -14,7 +14,6 @@ const playerReducer = (state = INITIAL_STATE, action) => {
   case SET_USER_LOGIN:
     return { ...state, ...action.payload };
   case SET_USER_PICTURE:
-    console.log('action.payload', action.payload);
     return { ...state, picture: action.payload };
   default:
     return state;
