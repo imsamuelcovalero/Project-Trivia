@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+// import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 
 class Game extends Component {
@@ -18,9 +19,9 @@ class Game extends Component {
 // });
 
 // Game.propTypes = {
-//   history: PropTypes.shape({
-//     push: PropTypes.func.isRequired,
-//   }).isRequired,
+//  history: PropTypes.shape({
+//    push: PropTypes.func.isRequired,
+//  }).isRequired,
 //   userLogin: PropTypes.func.isRequired,
 // };
 

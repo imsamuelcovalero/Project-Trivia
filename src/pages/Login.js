@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { setUserLogin, setUserPicture } from '../redux/actions';
-// import saveRanking from '../helpers/saveRanking';
+import getToken from '../helpers/tokenApi';
+import userToken from '../helpers/saveToken';
 
 class Login extends Component {
   constructor() {
@@ -21,16 +22,16 @@ class Login extends Component {
     });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     const { history, userLogin, userPicture } = this.props;
-    event.preventDefault();
     const { email } = this.state;
+    event.preventDefault();
     const hash = md5(email).toString();
-    console.log('hash', hash);
     const imgGravatar = `https://www.gravatar.com/avatar/${hash}`;
-    console.log('imgGravatar', imgGravatar);
-    // saveRanking(imgGravatar);
     userPicture(imgGravatar);
+    const newToken = await getToken();
+    const { token } = newToken;
+    userToken(token);
     userLogin(this.state);
     history.push('/Game');
   }
@@ -42,6 +43,11 @@ class Login extends Component {
     }
     return true;
   };
+
+  goToSettings = () => {
+    const { history } = this.props;
+    history.push('/Settings');
+  }
 
   render() {
     const { email, name } = this.state;
@@ -74,6 +80,13 @@ class Login extends Component {
             Play
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => this.goToSettings() }
+        >
+          Settings
+        </button>
       </div>
     );
   }
@@ -82,6 +95,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (userData) => dispatch(setUserLogin(userData)),
   userPicture: (pictureUrl) => dispatch(setUserPicture(pictureUrl)),
+  // userToken: (token) => dispatch(setUserToken(token)),
 });
 
 Login.propTypes = {
@@ -90,6 +104,7 @@ Login.propTypes = {
   }).isRequired,
   userLogin: PropTypes.func.isRequired,
   userPicture: PropTypes.func.isRequired,
+  // userToken: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
