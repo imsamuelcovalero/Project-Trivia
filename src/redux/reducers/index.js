@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import login from './login';
+import player from './player';
 
 // Configure os seus reducers.
-const rootReducer = combineReducers({ login });
+const rootReducer = combineReducers({ player });
 
 export default rootReducer;
