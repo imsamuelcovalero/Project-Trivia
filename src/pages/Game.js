@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Header from '../components/Header';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import getQuestions from '../helpers/questionsAPI';
 
 class Game extends Component {
@@ -15,6 +13,8 @@ class Game extends Component {
       buttonDisable: false,
       loading: false,
       btnNext: false,
+      correctButtonsColor: '',
+      incorrectButtonsColor: '',
     };
   }
 
@@ -31,7 +31,6 @@ class Game extends Component {
       localStorage.clear();
       history.push('/');
     }
-    console.log(questionsPack);
     /* const min = 0;
     const questionMax = questionsPack.results.length;
     const randomQuestion = min + Math.random() * (questionMax - min); */
@@ -66,16 +65,30 @@ class Game extends Component {
     console.log('ok');
     this.setState({
       btnNext: true,
+      correctButtonsColor: '3px solid rgb(6, 240, 15)',
+      incorrectButtonsColor: '3px solid red',
     });
   }
 
   answerButtonSetup = () => {
-    const { buttonDisable, answers } = this.state;
+    const { buttonDisable,
+      answers,
+      correctButtonsColor,
+      incorrectButtonsColor } = this.state;
+
+    const correctButtonStyle = {
+      border: `${correctButtonsColor}`,
+    };
+    const incorrectButtonStyle = {
+      border: `${incorrectButtonsColor}`,
+    };
+
     return answers.map((answer) => {
       if (answer.veracity === 'incorrect') {
         return (
           <button
             key={ answer.id }
+            style={ incorrectButtonStyle }
             data-testid={ `wrong-answer-${answer.id}` }
             type="button"
             onClick={ this.handleClickAnswer }
@@ -88,6 +101,7 @@ class Game extends Component {
       return (
         <button
           key={ answer.id }
+          style={ correctButtonStyle }
           data-testid="correct-answer"
           type="button"
           onClick={ this.handleClickAnswer }
@@ -136,16 +150,10 @@ class Game extends Component {
     );
   }
 }
-
-/* const mapStateToProps = (state) => ({
-  globalState: state,
-}); */
-
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-//   userLogin: PropTypes.func.isRequired,
 };
 
-export default /* connect(mapStateToProps, null)( */Game/* ) */;
+export default Game;
