@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setUserLogin } from '../redux/actions';
-import getToken from '../helpers/tokenAPI';
-import userToken from '../helpers/saveToken';
+import md5 from 'crypto-js/md5';
+import { setUserPicture, addUserThunk } from '../redux/actions/index';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
       name: '',
+      email: '',
     };
   }
 
@@ -22,12 +21,13 @@ class Login extends Component {
   }
 
   handleSubmit = async (event) => {
-    const { history, userLogin } = this.props;
+    const { history, userThunk, userPicture } = this.props;
+    const { email } = this.state;
     event.preventDefault();
-    const newToken = await getToken();
-    const { token } = newToken;
-    userToken(token);
-    userLogin(this.state);
+    const encode = md5(email).toString();
+    const imgGravatar = `https://www.gravatar.com/avatar/${encode}`;
+    userPicture(imgGravatar);
+    await userThunk(this.state);
     history.push('/Game');
   }
 
@@ -38,6 +38,11 @@ class Login extends Component {
     }
     return true;
   };
+
+  goToSettings = () => {
+    const { history } = this.props;
+    history.push('/Settings');
+  }
 
   render() {
     const { email, name } = this.state;
@@ -70,22 +75,29 @@ class Login extends Component {
             Play
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => this.goToSettings() }
+        >
+          Settings
+        </button>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  userLogin: (userData) => dispatch(setUserLogin(userData)),
-  // userToken: (token) => dispatch(setUserToken(token)),
+  userThunk: (userData) => dispatch(addUserThunk(userData)),
+  userPicture: (pictureUrl) => dispatch(setUserPicture(pictureUrl)),
 });
 
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  userLogin: PropTypes.func.isRequired,
-  // userToken: PropTypes.func.isRequired,
+  userThunk: PropTypes.func.isRequired,
+  userPicture: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

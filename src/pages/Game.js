@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import Header from '../components/Header';
+// import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 import getQuestions from '../helpers/questionsAPI';
 
@@ -11,6 +13,7 @@ class Game extends Component {
       category: '',
       answers: [],
       buttonDisable: false,
+      loading: false,
     };
   }
 
@@ -27,22 +30,18 @@ class Game extends Component {
       localStorage.clear();
       history.push('/');
     }
+    console.log(questionsPack);
     /* const min = 0;
     const questionMax = questionsPack.results.length;
     const randomQuestion = min + Math.random() * (questionMax - min); */
 
-    const { results } = questionsPack;
-    results[0].correctAnswer = results[0].correct_answer;
-    delete results[0].correct_answer;
-    results[0].incorrectAnswers = results[0].incorrect_answers;
-    delete results[0].incorrect_answers;
     const correctAnswers = {
-      answer: questionsPack.results[0].correctAnswer,
+      answer: questionsPack.results[0].correct_answer,
       id: 55,
       veracity: 'correct',
     };
 
-    const incorrectAnswer = questionsPack.results[0].incorrectAnswers;
+    const incorrectAnswer = questionsPack.results[0].incorrect_answers;
     const incorrectAnswersObject = Object.entries(incorrectAnswer).map((item, index) => ({
 
       answer: item[1],
@@ -54,8 +53,9 @@ class Game extends Component {
     const NUMBER = 0.5;
     const randomAnswers = incorrectAnswersObject.sort(() => Math.random() - NUMBER);
     this.setState({
-      question: questionsPack.results[0].question,
+      loading: true,
       category: questionsPack.results[0].category,
+      question: questionsPack.results[0].question,
       answers: randomAnswers,
     });
   }
@@ -95,23 +95,27 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category } = this.state;
+    const { question, category, loading } = this.state;
     console.log(category);
     return (
       <section>
         <h1>Game</h1>
+        <Header />
         <div>
-          <div>
-            <div data-testid="question-category">
-              { category }
+          {loading
+          && (
+            <div>
+              <span data-testid="question-category">
+                { category }
+              </span>
+              <div data-testid="question-text">
+                { question }
+              </div>
+              <div data-testid="answer-options">
+                {this.answerButtonSetup()}
+              </div>
             </div>
-            <div data-testid="question-text">
-              { question }
-            </div>
-            <div data-testid="answer-options">
-              {this.answerButtonSetup()}
-            </div>
-          </div>
+          )}
         </div>
       </section>
     );
