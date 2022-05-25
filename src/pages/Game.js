@@ -14,6 +14,7 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
+      btnNext: false,
     };
   }
 
@@ -57,11 +58,15 @@ class Game extends Component {
       category: questionsPack.results[0].category,
       question: questionsPack.results[0].question,
       answers: randomAnswers,
+      btnNext: false,
     });
   }
 
   handleClickAnswer = () => {
     console.log('ok');
+    this.setState({
+      btnNext: true,
+    });
   }
 
   answerButtonSetup = () => {
@@ -95,13 +100,23 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category, loading } = this.state;
+    const { question, category, loading, btnNext } = this.state;
     console.log(category);
     return (
       <section>
         <h1>Game</h1>
         <Header />
         <div>
+          { btnNext
+          && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.questionSetup }
+            >
+              Next
+            </button>
+          )}
           {loading
           && (
             <div>
