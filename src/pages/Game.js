@@ -15,6 +15,7 @@ class Game extends Component {
       btnNext: false,
       correctButtonsColor: '',
       incorrectButtonsColor: '',
+      counterQuestion: 0,
     };
   }
 
@@ -23,6 +24,7 @@ class Game extends Component {
   }
 
   questionSetup = async () => {
+    const { counterQuestion } = this.state;
     const { history } = this.props;
     const recoveredToken = localStorage.getItem('token');
     const questionsPack = await getQuestions(recoveredToken);
@@ -58,6 +60,7 @@ class Game extends Component {
       question: questionsPack.results[0].question,
       answers: randomAnswers,
       btnNext: false,
+      counterQuestion: counterQuestion + 1,
     });
   }
 
@@ -68,6 +71,17 @@ class Game extends Component {
       correctButtonsColor: '3px solid rgb(6, 240, 15)',
       incorrectButtonsColor: '3px solid red',
     });
+  }
+
+  handleClickNext = () => {
+    const { counterQuestion } = this.state;
+    const { history } = this.props;
+    const LASTQUESTION = 5;
+    if (counterQuestion === LASTQUESTION) {
+      history.push('/Feedback');
+    } else {
+      (this.questionSetup());
+    }
   }
 
   answerButtonSetup = () => {
@@ -126,7 +140,7 @@ class Game extends Component {
             <button
               type="button"
               data-testid="btn-next"
-              onClick={ this.questionSetup }
+              onClick={ this.handleClickNext }
             >
               Next
             </button>
