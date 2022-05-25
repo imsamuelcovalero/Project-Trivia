@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import { setUserLogin } from '../redux/actions';
-import saveRanking from '../helpers/saveRanking';
+import { setUserLogin, setUserPicture } from '../redux/actions';
+// import saveRanking from '../helpers/saveRanking';
 
 class Login extends Component {
   constructor() {
@@ -22,15 +22,15 @@ class Login extends Component {
   }
 
   handleSubmit = (event) => {
-    const { history, userLogin } = this.props;
+    const { history, userLogin, userPicture } = this.props;
     event.preventDefault();
     const { email } = this.state;
-    console.log('userEmail', email);
     const hash = md5(email).toString();
     console.log('hash', hash);
     const imgGravatar = `https://www.gravatar.com/avatar/${hash}`;
     console.log('imgGravatar', imgGravatar);
-    saveRanking(imgGravatar);
+    // saveRanking(imgGravatar);
+    userPicture(imgGravatar);
     userLogin(this.state);
     history.push('/Game');
   }
@@ -81,6 +81,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (userData) => dispatch(setUserLogin(userData)),
+  userPicture: (pictureUrl) => dispatch(setUserPicture(pictureUrl)),
 });
 
 Login.propTypes = {
@@ -88,6 +89,7 @@ Login.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   userLogin: PropTypes.func.isRequired,
+  userPicture: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

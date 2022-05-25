@@ -1,6 +1,6 @@
-const saveRanking = (profilePicture) => {
+const saveRanking = (ranking) => {
   console.log('Entrou em saveRanking');
-  localStorage.setItem('ranking', JSON.stringify([{ picture: profilePicture }]));
+  localStorage.setItem('ranking', JSON.stringify([ranking]));
 };
 
 if (typeof module !== 'undefined') {
