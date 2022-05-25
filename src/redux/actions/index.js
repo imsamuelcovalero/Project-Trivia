@@ -1,9 +1,11 @@
 // Coloque aqui suas actions
 // const CURRENCI_API = 'https://economia.awesomeapi.com.br/json/all';
+import getToken from '../../helpers/getToken';
+import setUserToken from '../../helpers/saveToken';
 
 export const SET_USER_LOGIN = 'SET_USER_LOGIN';
 export const SET_USER_PICTURE = 'SET_USER_PICTURE';
-export const SET_USER_TOKEN = 'SET_USER_TOKEN';
+const FAIL_REQUEST = 'FAIL_REQUEST';
 
 export const setUserLogin = (payload) => ({
   type: SET_USER_LOGIN,
@@ -16,7 +18,18 @@ export function setUserPicture(payload) {
     payload,
   };
 }
-export const setUserToken = (payload) => ({
-  type: SET_USER_TOKEN,
+
+const failRequest = (payload) => ({
+  type: FAIL_REQUEST,
   payload,
 });
+
+export const addUserThunk = (payload) => async (dispatch) => {
+  try {
+    const { token } = await getToken();
+    setUserToken(token);
+    dispatch(setUserLogin(payload));
+  } catch (err) {
+    return dispatch(failRequest(err.message));
+  }
+};

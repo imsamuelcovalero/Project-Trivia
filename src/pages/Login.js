@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import { setUserLogin, setUserPicture } from '../redux/actions';
-import getToken from '../helpers/getToken';
-import setUserToken from '../helpers/saveToken';
+import { setUserPicture, addUserThunk } from '../redux/actions/index';
 
 class Login extends Component {
   constructor() {
@@ -23,16 +21,13 @@ class Login extends Component {
   }
 
   handleSubmit = async (event) => {
-    const { history, userLogin, userPicture } = this.props;
+    const { history, userThunk, userPicture } = this.props;
     const { email } = this.state;
     event.preventDefault();
     const encode = md5(email).toString();
     const imgGravatar = `https://www.gravatar.com/avatar/${encode}`;
     userPicture(imgGravatar);
-    const newToken = await getToken();
-    const { token } = newToken;
-    setUserToken(token);
-    userLogin(this.state);
+    await userThunk(this.state);
     history.push('/Game');
   }
 
@@ -93,7 +88,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  userLogin: (userData) => dispatch(setUserLogin(userData)),
+  userThunk: (userData) => dispatch(addUserThunk(userData)),
   userPicture: (pictureUrl) => dispatch(setUserPicture(pictureUrl)),
 });
 
@@ -101,7 +96,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  userLogin: PropTypes.func.isRequired,
+  userThunk: PropTypes.func.isRequired,
   userPicture: PropTypes.func.isRequired,
 };
 
