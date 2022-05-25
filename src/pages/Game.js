@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Header from '../components/Header';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import getQuestions from '../helpers/questionsAPI';
 
 class Game extends Component {
@@ -14,7 +12,8 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
-      isButtonsColorHidden: 'hidden',
+      correctButtonsColor: '',
+      incorrectButtonsColor: '',
     };
   }
 
@@ -63,21 +62,22 @@ class Game extends Component {
 
   handleClickAnswer = () => {
     this.setState({
-      isButtonsColorHidden: 'visible',
+      correctButtonsColor: '3px solid rgb(6, 240, 15)',
+      incorrectButtonsColor: '3px solid red',
     });
   }
 
   answerButtonSetup = () => {
-    const { buttonDisable, answers, isButtonsColorHidden } = this.state;
+    const { buttonDisable,
+      answers,
+      correctButtonsColor,
+      incorrectButtonsColor } = this.state;
 
     const correctButtonStyle = {
-      border: '3px solid',
-      borderColor: 'rgb(6, 240, 15)',
-      // visibility: `${isButtonsColorHidden}`,
+      border: `${correctButtonsColor}`,
     };
     const incorrectButtonStyle = {
-      border: 3px solid red,
-      // visibility: 'visible',
+      border: `${incorrectButtonsColor}`,
     };
 
     return answers.map((answer) => {
@@ -85,7 +85,7 @@ class Game extends Component {
         return (
           <button
             key={ answer.id }
-            style={ correctButtonStyle }
+            style={ incorrectButtonStyle }
             data-testid={ `wrong-answer-${answer.id}` }
             type="button"
             onClick={ this.handleClickAnswer }
@@ -98,7 +98,7 @@ class Game extends Component {
       return (
         <button
           key={ answer.id }
-          style={ incorrectButtonStyle }
+          style={ correctButtonStyle }
           data-testid="correct-answer"
           type="button"
           onClick={ this.handleClickAnswer }
@@ -138,15 +138,10 @@ class Game extends Component {
   }
 }
 
-/* const mapStateToProps = (state) => ({
-  globalState: state,
-}); */
-
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-//   userLogin: PropTypes.func.isRequired,
 };
 
-export default /* connect(mapStateToProps, null)( */Game/* ) */;
+export default Game;
