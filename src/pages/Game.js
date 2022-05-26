@@ -90,6 +90,16 @@ class Game extends Component {
     });
   }
 
+  resetState = () => {
+    this.setState({
+      timer: 30,
+      correctButtonsColor: '',
+      incorrectButtonsColor: '',
+      buttonDisable: false,
+    });
+    this.setTimeOut();
+  }
+
   setTimeOut = () => {
     const TIMER = 1000;
     const interval = setInterval(() => {
@@ -155,7 +165,10 @@ class Game extends Component {
             <button
               type="button"
               data-testid="btn-next"
-              onClick={ this.questionSetup }
+              onClick={ () => {
+                this.questionSetup();
+                this.resetState();
+              } }
             >
               Next
             </button>
