@@ -14,12 +14,19 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
+      timer: 30,
+      interval: null,
     };
   }
 
   componentDidMount = () => {
     this.questionSetup();
+    this.setTimeOut();
   }
+
+  // componentDidUpdate = () => {
+  //   ;
+  // }
 
   questionSetup = async () => {
     const { history } = this.props;
@@ -61,7 +68,28 @@ class Game extends Component {
   }
 
   handleClickAnswer = () => {
-    console.log('ok');
+    this.updateState(true);
+  }
+
+  updateState =(click) => {
+    const { timer, interval } = this.state;
+    if (timer > 0 && click === undefined) {
+      return this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }
+    clearInterval(interval);
+    this.setState({
+      buttonDisable: true,
+    });
+  }
+
+  setTimeOut = () => {
+    const TIMER = 1000;
+    const interval = setInterval(() => {
+      this.setState({ interval });
+      this.updateState();
+    }, TIMER);
   }
 
   answerButtonSetup = () => {
@@ -95,12 +123,12 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category, loading } = this.state;
-    console.log(category);
+    const { question, category, loading, timer } = this.state;
     return (
       <section>
         <h1>Game</h1>
         <Header />
+        <h2>{timer}</h2>
         <div>
           {loading
           && (
