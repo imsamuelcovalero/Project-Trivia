@@ -12,6 +12,8 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
+      timer: 30,
+      interval: null,
       btnNext: false,
       correctButtonsColor: '',
       incorrectButtonsColor: '',
@@ -21,7 +23,12 @@ class Game extends Component {
 
   componentDidMount = () => {
     this.questionSetup();
+    this.setTimeOut();
   }
+
+  // componentDidUpdate = () => {
+  //   ;
+  // }
 
   questionSetup = async () => {
     const { counterQuestion } = this.state;
@@ -65,7 +72,7 @@ class Game extends Component {
   }
 
   handleClickAnswer = () => {
-    console.log('ok');
+    this.updateState(true);
     this.setState({
       btnNext: true,
       correctButtonsColor: '3px solid rgb(6, 240, 15)',
@@ -82,6 +89,37 @@ class Game extends Component {
     } else {
       (this.questionSetup());
     }
+  }
+
+  updateState =(click) => {
+    const { timer, interval } = this.state;
+    if (timer > 0 && click === undefined) {
+      return this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }
+    clearInterval(interval);
+    this.setState({
+      buttonDisable: true,
+    });
+  }
+
+  resetState = () => {
+    this.setState({
+      timer: 30,
+      correctButtonsColor: '',
+      incorrectButtonsColor: '',
+      buttonDisable: false,
+    });
+    this.setTimeOut();
+  }
+
+  setTimeOut = () => {
+    const TIMER = 1000;
+    const interval = setInterval(() => {
+      this.setState({ interval });
+      this.updateState();
+    }, TIMER);
   }
 
   answerButtonSetup = () => {
@@ -128,19 +166,23 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category, loading, btnNext } = this.state;
+    const { question, category, loading, btnNext, timer } = this.state;
     console.log(category);
     return (
       <section>
         <h1>Game</h1>
         <Header />
+        <h2>{timer}</h2>
         <div>
           { btnNext
           && (
             <button
               type="button"
               data-testid="btn-next"
-              onClick={ this.handleClickNext }
+              onClick={ () => {
+                this.handleClickNext();
+                this.resetState();
+              } }
             >
               Next
             </button>
@@ -164,6 +206,7 @@ class Game extends Component {
     );
   }
 }
+
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
