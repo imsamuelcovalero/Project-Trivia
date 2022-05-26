@@ -17,6 +17,7 @@ class Game extends Component {
       btnNext: false,
       correctButtonsColor: '',
       incorrectButtonsColor: '',
+      counterQuestion: 0,
     };
   }
 
@@ -30,6 +31,7 @@ class Game extends Component {
   // }
 
   questionSetup = async () => {
+    const { counterQuestion } = this.state;
     const { history } = this.props;
     const recoveredToken = localStorage.getItem('token');
     const questionsPack = await getQuestions(recoveredToken);
@@ -65,6 +67,7 @@ class Game extends Component {
       question: questionsPack.results[0].question,
       answers: randomAnswers,
       btnNext: false,
+      counterQuestion: counterQuestion + 1,
     });
   }
 
@@ -77,6 +80,17 @@ class Game extends Component {
     });
   }
 
+  handleClickNext = () => {
+    const { counterQuestion } = this.state;
+    const { history } = this.props;
+    const LASTQUESTION = 5;
+    if (counterQuestion === LASTQUESTION) {
+      history.push('/Feedback');
+    } else {
+      (this.questionSetup());
+    }
+  }
+
   updateState =(click) => {
     const { timer, interval } = this.state;
     if (timer > 0 && click === undefined) {
@@ -84,6 +98,7 @@ class Game extends Component {
         timer: prevState.timer - 1,
       }));
     }
+
     clearInterval(interval);
     this.setState({
       buttonDisable: true,
@@ -166,7 +181,7 @@ class Game extends Component {
               type="button"
               data-testid="btn-next"
               onClick={ () => {
-                this.questionSetup();
+                this.handleClickNext();
                 this.resetState();
               } }
             >
@@ -192,6 +207,7 @@ class Game extends Component {
     );
   }
 }
+
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
