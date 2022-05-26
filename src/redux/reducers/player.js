@@ -1,5 +1,6 @@
 // Lembre-se sempre de criar um estado inicial para cada reducer. É o mesmo que fazíamos com o this.state lá no constructor...
-import { SET_USER_LOGIN, SET_USER_PICTURE, SET_USER_SCORE } from '../actions';
+import { SET_USER_LOGIN, SET_USER_PICTURE, SET_USER_SCORE,
+  SET_USER_ASSERTIONS } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -17,6 +18,9 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     return { ...state, picture: action.payload };
   case SET_USER_SCORE:
     return { ...state, score: action.payload };
+  case SET_USER_ASSERTIONS:
+    console.log(action.payload);
+    return { ...state, assertions: action.payload };
   default:
     return state;
   }

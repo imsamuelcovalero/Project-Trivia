@@ -7,6 +7,7 @@ export const SET_USER_LOGIN = 'SET_USER_LOGIN';
 export const SET_USER_PICTURE = 'SET_USER_PICTURE';
 const FAIL_REQUEST = 'FAIL_REQUEST';
 export const SET_USER_SCORE = 'SET_USER_SCORE';
+export const SET_USER_ASSERTIONS = 'SET_USER_ASSERTIONS';
 
 export const setUserLogin = (payload) => ({
   type: SET_USER_LOGIN,
@@ -36,8 +37,17 @@ export const addUserThunk = (payload) => async (dispatch) => {
 };
 
 export function saveUserScore(payload) {
+  console.log(payload);
   return {
     type: SET_USER_SCORE,
+    payload,
+  };
+}
+
+export function saveUserAssertion(payload) {
+  console.log(payload);
+  return {
+    type: SET_USER_ASSERTIONS,
     payload,
   };
 }
