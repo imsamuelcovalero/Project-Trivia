@@ -98,6 +98,7 @@ class Game extends Component {
         timer: prevState.timer - 1,
       }));
     }
+
     clearInterval(interval);
     this.setState({
       buttonDisable: true,
