@@ -16,6 +16,9 @@ class Game extends Component {
       loading: false,
       timer: 0,
       score: 0,
+      btnNext: false,
+      correctButtonsColor: '',
+      incorrectButtonsColor: '',
     };
   }
 
@@ -32,7 +35,10 @@ class Game extends Component {
       localStorage.clear();
       history.push('/');
     }
-    console.log(questionsPack);
+    // console.log(questionsPack);
+    /* const min = 0;
+    const questionMax = questionsPack.results.length;
+    const randomQuestion = min + Math.random() * (questionMax - min); */
 
     const correctAnswers = {
       answer: questionsPack.results[0].correct_answer,
@@ -58,6 +64,10 @@ class Game extends Component {
       category: questionsPack.results[0].category,
       question: questionsPack.results[0].question,
       answers: randomAnswers,
+      btnNext: false,
+      buttonDisable: false,
+      correctButtonsColor: '1px solid',
+      incorrectButtonsColor: '1px solid',
     });
   }
 
@@ -78,39 +88,55 @@ class Game extends Component {
     } else if (dificulty === 'hard') {
       dificuldade = HARD;
     }
-    // let score = 0;
     if (answer.veracity === 'correct') {
       const currentScore = DEZ + (timer * dificuldade);
       this.setState({
         score: score + currentScore,
+        btnNext: true,
+        correctButtonsColor: '3px solid rgb(6, 240, 15)',
+        incorrectButtonsColor: '3px solid red',
+      }, () => {
+        saveScore(score + currentScore);
+        console.log('correct', score);
       });
-      // score += currentScore;
-      // console.log('score', score);
-      // return score;
     } if (answer.veracity === 'incorrect') {
       this.setState({
         score,
+        btnNext: true,
+        correctButtonsColor: '3px solid rgb(6, 240, 15)',
+        incorrectButtonsColor: '3px solid red',
+      }, () => {
+        saveScore(score);
+        console.log('incorrect', score);
       });
-      // score += 0;
-      // console.log('score', score);
-      // return score;
     }
+    this.setState({
+      buttonDisable: true,
+    });
     console.log('score', score);
-    saveScore(score);
-    // history.push('/Game');
-    this.questionSetup();
   }
 
   answerButtonSetup = () => {
-    const { buttonDisable, answers } = this.state;
+    const { buttonDisable,
+      answers,
+      correctButtonsColor,
+      incorrectButtonsColor } = this.state;
+
+    const correctButtonStyle = {
+      border: `${correctButtonsColor}`,
+    };
+    const incorrectButtonStyle = {
+      border: `${incorrectButtonsColor}`,
+    };
+
     return answers.map((answer) => {
       if (answer.veracity === 'incorrect') {
         return (
           <button
             key={ answer.id }
+            style={ incorrectButtonStyle }
             data-testid={ `wrong-answer-${answer.id}` }
             type="button"
-            // value="wrong"
             onClick={ () => this.handleClickAnswer(answer) }
             disabled={ buttonDisable }
           >
@@ -121,9 +147,9 @@ class Game extends Component {
       return (
         <button
           key={ answer.id }
+          style={ correctButtonStyle }
           data-testid="correct-answer"
           type="button"
-          // value="correct"
           onClick={ () => this.handleClickAnswer(answer) }
           disabled={ buttonDisable }
         >
@@ -134,13 +160,23 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category, loading } = this.state;
+    const { question, category, loading, btnNext } = this.state;
     // console.log(category);
     return (
       <section>
         <h1>Game</h1>
         <Header />
         <div>
+          { btnNext
+          && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.questionSetup }
+            >
+              Next
+            </button>
+          )}
           {loading
           && (
             <div>
