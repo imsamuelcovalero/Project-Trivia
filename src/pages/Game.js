@@ -14,8 +14,9 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
-      timer: 0,
       score: 0,
+      timer: 30,
+      interval: null,
       btnNext: false,
       correctButtonsColor: '',
       incorrectButtonsColor: '',
@@ -24,6 +25,7 @@ class Game extends Component {
 
   componentDidMount = () => {
     this.questionSetup();
+    this.setTimeOut();
   }
 
   questionSetup = async () => {
@@ -35,10 +37,6 @@ class Game extends Component {
       localStorage.clear();
       history.push('/');
     }
-    // console.log(questionsPack);
-    /* const min = 0;
-    const questionMax = questionsPack.results.length;
-    const randomQuestion = min + Math.random() * (questionMax - min); */
 
     const correctAnswers = {
       answer: questionsPack.results[0].correct_answer,
@@ -110,10 +108,39 @@ class Game extends Component {
         console.log('incorrect', score);
       });
     }
+    this.updateState(true);
+    console.log('score', score);
+  }
+
+  updateState =(click) => {
+    const { timer, interval } = this.state;
+    if (timer > 0 && click === undefined) {
+      return this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }
+    clearInterval(interval);
     this.setState({
       buttonDisable: true,
     });
-    console.log('score', score);
+  }
+
+  resetState = () => {
+    this.setState({
+      timer: 30,
+      correctButtonsColor: '',
+      incorrectButtonsColor: '',
+      buttonDisable: false,
+    });
+    this.setTimeOut();
+  }
+
+  setTimeOut = () => {
+    const TIMER = 1000;
+    const interval = setInterval(() => {
+      this.setState({ interval });
+      this.updateState();
+    }, TIMER);
   }
 
   answerButtonSetup = () => {
@@ -160,19 +187,22 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category, loading, btnNext } = this.state;
-    // console.log(category);
+    const { question, category, loading, btnNext, timer } = this.state;
     return (
       <section>
         <h1>Game</h1>
         <Header />
+        <h2>{timer}</h2>
         <div>
           { btnNext
           && (
             <button
               type="button"
               data-testid="btn-next"
-              onClick={ this.questionSetup }
+              onClick={ () => {
+                this.questionSetup();
+                this.resetState();
+              } }
             >
               Next
             </button>
@@ -196,10 +226,6 @@ class Game extends Component {
     );
   }
 }
-
-// const mapStateToProps = (globalState) => ({
-//   userScore: globalState.player.score,
-// });
 
 const mapDispatchToProps = (dispatch) => ({
   saveScore: (score) => dispatch(saveUserScore(score)),
