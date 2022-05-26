@@ -6,6 +6,7 @@ import setUserToken from '../../helpers/saveToken';
 export const SET_USER_LOGIN = 'SET_USER_LOGIN';
 export const SET_USER_PICTURE = 'SET_USER_PICTURE';
 const FAIL_REQUEST = 'FAIL_REQUEST';
+export const SET_USER_SCORE = 'SET_USER_SCORE';
 
 export const setUserLogin = (payload) => ({
   type: SET_USER_LOGIN,
@@ -33,3 +34,10 @@ export const addUserThunk = (payload) => async (dispatch) => {
     return dispatch(failRequest(err.message));
   }
 };
+
+export function saveUserScore(payload) {
+  return {
+    type: SET_USER_SCORE,
+    payload,
+  };
+}

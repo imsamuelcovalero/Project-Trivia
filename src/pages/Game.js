@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import getQuestions from '../helpers/questionsAPI';
+import { saveUserScore } from '../redux/actions/index';
 
 class Game extends Component {
   constructor() {
@@ -14,6 +14,8 @@ class Game extends Component {
       answers: [],
       buttonDisable: false,
       loading: false,
+      timer: 0,
+      score: 0,
     };
   }
 
@@ -31,14 +33,12 @@ class Game extends Component {
       history.push('/');
     }
     console.log(questionsPack);
-    /* const min = 0;
-    const questionMax = questionsPack.results.length;
-    const randomQuestion = min + Math.random() * (questionMax - min); */
 
     const correctAnswers = {
       answer: questionsPack.results[0].correct_answer,
       id: 55,
       veracity: 'correct',
+      dificulty: questionsPack.results[0].difficulty,
     };
 
     const incorrectAnswer = questionsPack.results[0].incorrect_answers;
@@ -47,6 +47,7 @@ class Game extends Component {
       answer: item[1],
       id: index,
       veracity: 'incorrect',
+      dificulty: questionsPack.results[0].difficulty,
 
     }));
     incorrectAnswersObject.push(correctAnswers);
@@ -60,8 +61,44 @@ class Game extends Component {
     });
   }
 
-  handleClickAnswer = () => {
-    console.log('ok');
+  handleClickAnswer = (answer) => {
+    console.log('answer', answer);
+    const { timer, score } = this.state;
+    const { saveScore } = this.props;
+    const DEZ = 10;
+    const HARD = 3;
+    const MEDIUM = 2;
+    const EASY = 1;
+    const { dificulty } = answer.dificulty;
+    let dificuldade = 0;
+    if (dificulty === 'easy') {
+      dificuldade = EASY;
+    } else if (dificulty === 'medium') {
+      dificuldade = MEDIUM;
+    } else if (dificulty === 'hard') {
+      dificuldade = HARD;
+    }
+    // let score = 0;
+    if (answer.veracity === 'correct') {
+      const currentScore = DEZ + (timer * dificuldade);
+      this.setState({
+        score: score + currentScore,
+      });
+      // score += currentScore;
+      // console.log('score', score);
+      // return score;
+    } if (answer.veracity === 'incorrect') {
+      this.setState({
+        score,
+      });
+      // score += 0;
+      // console.log('score', score);
+      // return score;
+    }
+    console.log('score', score);
+    saveScore(score);
+    // history.push('/Game');
+    this.questionSetup();
   }
 
   answerButtonSetup = () => {
@@ -73,7 +110,8 @@ class Game extends Component {
             key={ answer.id }
             data-testid={ `wrong-answer-${answer.id}` }
             type="button"
-            onClick={ this.handleClickAnswer }
+            // value="wrong"
+            onClick={ () => this.handleClickAnswer(answer) }
             disabled={ buttonDisable }
           >
             {answer.answer}
@@ -85,7 +123,8 @@ class Game extends Component {
           key={ answer.id }
           data-testid="correct-answer"
           type="button"
-          onClick={ this.handleClickAnswer }
+          // value="correct"
+          onClick={ () => this.handleClickAnswer(answer) }
           disabled={ buttonDisable }
         >
           {answer.answer}
@@ -96,7 +135,7 @@ class Game extends Component {
 
   render() {
     const { question, category, loading } = this.state;
-    console.log(category);
+    // console.log(category);
     return (
       <section>
         <h1>Game</h1>
@@ -122,15 +161,20 @@ class Game extends Component {
   }
 }
 
-/* const mapStateToProps = (state) => ({
-  globalState: state,
-}); */
+// const mapStateToProps = (globalState) => ({
+//   userScore: globalState.player.score,
+// });
+
+const mapDispatchToProps = (dispatch) => ({
+  saveScore: (score) => dispatch(saveUserScore(score)),
+});
 
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-//   userLogin: PropTypes.func.isRequired,
+  // userScore: PropTypes.number.isRequired,
+  saveScore: PropTypes.func.isRequired,
 };
 
-export default /* connect(mapStateToProps, null)( */Game/* ) */;
+export default connect(null, mapDispatchToProps)(Game);
