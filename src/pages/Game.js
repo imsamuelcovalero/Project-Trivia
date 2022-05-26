@@ -12,13 +12,7 @@ class Game extends Component {
     this.state = gameInitialState;
   }
 
-  componentDidMount = () => {
-    this.questionSetup();
-    this.setTimeOut();
-  }
-
-  questionSetup = async () => {
-    const { counterQuestion } = this.state;
+  componentDidMount = async () => {
     const { history } = this.props;
     const recoveredToken = localStorage.getItem('token');
     const questionsPack = await getQuestions(recoveredToken);
@@ -27,32 +21,42 @@ class Game extends Component {
       localStorage.clear();
       history.push('/');
     }
+    console.log(questionsPack);
+    this.setState({
+      apiQuestions: questionsPack,
+    });
+    this.setTimeOut();
+    this.questionSetup();
+  }
+
+  questionSetup = async () => {
+    const { counterQuestion, apiQuestions } = this.state;
+    console.log(counterQuestion);
     const correctAnswers = {
-      answer: questionsPack.results[0].correct_answer,
+      answer: apiQuestions.results[counterQuestion].correct_answer,
       id: 55,
       veracity: 'correct',
-      dificulty: questionsPack.results[0].difficulty,
+      dificulty: apiQuestions.results[counterQuestion].difficulty,
     };
-    const incorrectAnswer = questionsPack.results[0].incorrect_answers;
+    const incorrectAnswer = apiQuestions.results[counterQuestion].incorrect_answers;
     const incorrectAnswersObject = Object.entries(incorrectAnswer).map((item, index) => ({
       answer: item[1],
       id: index,
       veracity: 'incorrect',
-      dificulty: questionsPack.results[0].difficulty,
+      dificulty: apiQuestions.results[counterQuestion].difficulty,
     }));
     incorrectAnswersObject.push(correctAnswers);
     const NUMBER = 0.5;
     const randomAnswers = incorrectAnswersObject.sort(() => Math.random() - NUMBER);
     this.setState({
       loading: true,
-      category: questionsPack.results[0].category,
-      question: questionsPack.results[0].question,
+      category: apiQuestions.results[counterQuestion].category,
+      question: apiQuestions.results[counterQuestion].question,
       answers: randomAnswers,
       btnNext: false,
       buttonDisable: false,
       correctButtonsColor: '',
       incorrectButtonsColor: '',
-      counterQuestion: counterQuestion + 1,
     });
   }
 
@@ -102,11 +106,13 @@ class Game extends Component {
   handleClickNext = () => {
     const { counterQuestion } = this.state;
     const { history } = this.props;
-    const LASTQUESTION = 5;
+    const LASTQUESTION = 4;
     if (counterQuestion === LASTQUESTION) {
       history.push('/Feedback');
     } else {
-      (this.questionSetup());
+      this.setState({ counterQuestion: counterQuestion + 1 }, () => {
+        this.questionSetup();
+      });
     }
   }
 

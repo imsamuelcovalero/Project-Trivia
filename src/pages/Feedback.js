@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import saveRanking from '../helpers/saveRanking';
 
 class Feedback extends Component {
+  componentDidMount = () => {
+    const { name, picture, score } = this.props;
+    const playerListObject = {
+      playerName: name,
+      playerScore: score,
+      playerImage: picture,
+
+    };
+    saveRanking(playerListObject);
+  }
+
   customMessageAssertions = (assertions) => {
     const ASSERTIONS = 3;
     if (assertions < ASSERTIONS) {

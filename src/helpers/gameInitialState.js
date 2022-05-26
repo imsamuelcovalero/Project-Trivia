@@ -12,6 +12,7 @@ const gameInitialState = {
   correctButtonsColor: '',
   incorrectButtonsColor: '',
   counterQuestion: 0,
+  apiQuestions: [],
 };
 
 export default gameInitialState;

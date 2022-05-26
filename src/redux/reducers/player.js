@@ -19,7 +19,6 @@ const playerReducer = (state = INITIAL_STATE, action) => {
   case SET_USER_SCORE:
     return { ...state, score: action.payload };
   case SET_USER_ASSERTIONS:
-    console.log(action.payload);
     return { ...state, assertions: action.payload };
   default:
     return state;
