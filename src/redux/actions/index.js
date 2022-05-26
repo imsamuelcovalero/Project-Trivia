@@ -37,7 +37,6 @@ export const addUserThunk = (payload) => async (dispatch) => {
 };
 
 export function saveUserScore(payload) {
-  console.log(payload);
   return {
     type: SET_USER_SCORE,
     payload,
@@ -45,7 +44,6 @@ export function saveUserScore(payload) {
 }
 
 export function saveUserAssertion(payload) {
-  console.log(payload);
   return {
     type: SET_USER_ASSERTIONS,
     payload,
