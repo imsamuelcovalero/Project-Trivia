@@ -3,7 +3,7 @@ import logo from './trivia.png';
 import './App.css';
 import Content from './routers/Content';
 
-// Começa o projeto Trivia
+// Começa o Req 09
 class App extends Component {
   render() {
     return (
