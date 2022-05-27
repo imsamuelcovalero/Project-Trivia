@@ -191,7 +191,7 @@ class Game extends Component {
       <section>
         <h1>Game</h1>
         <Header />
-        <h2>{timer}</h2>
+        <h2 data-testid="timer">{timer}</h2>
         <div>
           { btnNext
           && (
