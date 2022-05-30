@@ -20,8 +20,8 @@ class Game extends Component {
     if (questionsPack.response_code === EXPIRED_RESPONSE_CODE) {
       localStorage.clear();
       history.push('/');
+      return;
     }
-    console.log(questionsPack);
     this.setState({
       apiQuestions: questionsPack,
     });
@@ -29,9 +29,8 @@ class Game extends Component {
     this.questionSetup();
   }
 
-  questionSetup = async () => {
+  questionSetup = () => {
     const { counterQuestion, apiQuestions } = this.state;
-    console.log(counterQuestion);
     const correctAnswers = {
       answer: apiQuestions.results[counterQuestion].correct_answer,
       id: 55,
