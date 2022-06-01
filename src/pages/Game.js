@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FiClock } from 'react-icons/fi';
 import Header from '../components/Header';
 import getQuestions from '../helpers/questionsAPI';
 import { saveUserScore, saveUserAssertion } from '../redux/actions/index';
 import gameInitialState from '../helpers/gameInitialState';
+import CardQuestion from '../components/CardQuestion';
 
 class Game extends Component {
   constructor() {
@@ -164,6 +166,7 @@ class Game extends Component {
             type="button"
             onClick={ () => this.handleClickAnswer(answer) }
             disabled={ buttonDisable }
+            className="bg-amber-300 p-2 mx-8 hover:scale-105 transition disabled:bg-red-400 disabled:text-white disabled:hover:scale-100 rounded border-2 border-black text-black font-bold disabled:brightness-75"
           >
             {answer.answer}
           </button>
@@ -176,6 +179,7 @@ class Game extends Component {
           data-testid="correct-answer"
           type="button"
           onClick={ () => this.handleClickAnswer(answer) }
+          className="bg-amber-300 p-2 mx-8 transition hover:scale-105 bg-green-600  disabled:hover:scale-100 rounded border-2 border-black text-black font-bold disabled:brightness-75"
           disabled={ buttonDisable }
         >
           {answer.answer}
@@ -185,41 +189,58 @@ class Game extends Component {
   }
 
   render() {
-    const { question, category, loading, btnNext, timer } = this.state;
+    const { question, category, loading, btnNext, timer, buttonDisable } = this.state;
+    const Timer = 10;
     return (
-      <section>
-        <h1>Game</h1>
-        <Header />
-        <h2 data-testid="timer">{timer}</h2>
-        <div>
-          { btnNext
-          && (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ () => {
-                this.handleClickNext();
-                this.resetState();
-              } }
+      <section className="bg-amber-300 flex flex-col items-center min-h-screen">
+        <div className="w-full">
+          <Header />
+        </div>
+        <section>
+          <div className="flex justify-end items-center mr-8 mb-1">
+            <FiClock
+              className={ `
+                text-lg
+               ${timer === 0 || buttonDisable === true ? 'animate-none' : 'animate-spin'} 
+              ` }
+            />
+            <h2
+              className={ ` 
+                ${timer <= Timer ? 'animate-pulse text-red-400' : ''} 
+                text-lg text-black bg-purple-400 w-12 m-1 text-center p-2
+                rounded-r-full` }
+              data-testid="timer"
             >
-              Next
-            </button>
-          )}
-          {loading
+              {timer}
+            </h2>
+          </div>
+          <div className="flex flex-col h-screen items-center">
+            {loading
+            && (
+              <CardQuestion
+                category={ category }
+                question={ question }
+                answerButtonSetup={ this.answerButtonSetup }
+              />
+            )}
+            { (btnNext || timer === 0 || buttonDisable === true)
           && (
-            <div>
-              <span data-testid="question-category">
-                { category }
-              </span>
-              <div data-testid="question-text">
-                { question }
-              </div>
-              <div data-testid="answer-options">
-                {this.answerButtonSetup()}
-              </div>
+            <div className=" w-full flex justify-end items-center mt-2 ">
+              <button
+                type="button"
+                data-testid="btn-next"
+                className="mr-8 p-2 px-4 bg-purple-400 rounded font-bold text-amber-300"
+                onClick={ () => {
+                  this.handleClickNext();
+                  this.resetState();
+                } }
+              >
+                Next
+              </button>
             </div>
           )}
-        </div>
+          </div>
+        </section>
       </section>
     );
   }

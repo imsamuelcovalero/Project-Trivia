@@ -1,7 +1,10 @@
+/* eslint-disable react/jsx-max-depth */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getRanking from '../helpers/getRanking';
+import trofeu2 from '../trofeu2.png';
+import cat from '../cat.jpeg';
 
 class Ranking extends Component {
   constructor() {
@@ -28,29 +31,46 @@ class Ranking extends Component {
   render() {
     const { playerList } = this.state;
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
-          { playerList.map((player, index) => (
-            <li key={ index }>
-              <img src={ player.playerImage } alt="player" />
-              <p data-testid={ `player-name-${index}` }>
-                { player.playerName }
-              </p>
-              <p data-testid={ `player-score-${index}` }>
-                { player.playerScore }
-              </p>
-            </li>
-          )) }
-
-        </ul>
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ this.homeButton }
-        >
-          Home
-        </button>
+      <div className="bg-purple-400 h-screen flex justify-center gap-8 items-center">
+        <div className="w-[500px] animate-bounce ">
+          <img src={ trofeu2 } className="w-full h-[300px]" alt="trofeu" />
+        </div>
+        <div className="flex flex-col w-2/3 mr-20 items-center gap-4">
+          <h1 data-testid="ranking-title" className="text-4xl font-bold">Ranking</h1>
+          <div className="flex justify-center items-center border-t-2 border-r-2 border-l-2 border-black rounded">
+            <table>
+              <tr className="w-full bg-amber-300">
+                <th className="w-40">Profile</th>
+                <th className="w-40">Player</th>
+                <th className="w-40">Score</th>
+              </tr>
+              { playerList.map((player = 'player', index) => (
+                <tr key={ index } className="border-b-2 bg-zinc-200 border-black">
+                  <td className="p-2 flex justify-center ">
+                    <img className="h-8 w-8 text-center rounded border-2 border-white" src={ player.playerImage } alt="player" />
+                  </td>
+                  <td data-testid={ `player-name-${index}` } className="text-center">
+                    {player.playerName}
+                  </td>
+                  <td data-testid={ `player-score-${index}` } className="text-center">
+                    {player.playerScore}
+                  </td>
+                </tr>
+              )) }
+            </table>
+          </div>
+          <button
+            type="button"
+            data-testid="btn-go-home"
+            onClick={ this.homeButton }
+            className="p-2 w-28 bg-amber-300 border-2 border-black rounded font-bold text-gray-800"
+          >
+            Home
+          </button>
+        </div>
+        <div className="mr-16">
+          <img src={ cat } className="mr-20" alt="cat" />
+        </div>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import logo from '../trivia.png';
 
 // Cria uma classe para mostrar a Header da página
 class Header extends Component {
@@ -8,14 +9,32 @@ class Header extends Component {
     const { userName, userScore, userPicture } = this.props;
 
     return (
-      <header>
-        <img data-testid="header-profile-picture" src={ userPicture } alt="Gravatar" />
-        <h4 data-testid="header-player-name">
-          { userName }
-        </h4>
-        <h3 data-testid="header-score">
-          { userScore }
-        </h3>
+      <header className="flex bg-purple-400 h-20">
+        <section className="w-2/3 ml-2">
+          <div className="mb-4 flex items-center h-full">
+            <img src={ logo } className="w-20 h-15 animate-bounce" alt="logo" />
+          </div>
+        </section>
+        <section className="flex gap-8 flex-1 justify-center items-center">
+          <img
+            className="h-12 w-12 rounded-md border-2 border-white"
+            data-testid="header-profile-picture"
+            src={ userPicture }
+            alt="Gravatar"
+          />
+          <h4
+            className="font-bold text-amber-300 md:text-lg"
+            data-testid="header-player-name"
+          >
+            { `Nome: ${userName}` }
+          </h4>
+          <h3
+            data-testid="header-score"
+            className="font-bold text-amber-300 md:text-lg"
+          >
+            {`Score: ${userScore}` }
+          </h3>
+        </section>
       </header>
     );
   }

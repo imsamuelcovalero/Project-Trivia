@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { FaPlay } from 'react-icons/fa';
+import { FiSettings } from 'react-icons/fi';
 import { setUserPicture, addUserThunk } from '../redux/actions/index';
+import logo from '../trivia.png';
+import Spin from '../components/Spin';
 
 class Login extends Component {
   constructor() {
@@ -10,6 +14,7 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
+      spin: false,
     };
   }
 
@@ -21,6 +26,7 @@ class Login extends Component {
   }
 
   handleSubmit = async (event) => {
+    this.setState({ spin: true });
     const { history, userThunk, userPicture } = this.props;
     const { email } = this.state;
     event.preventDefault();
@@ -45,13 +51,27 @@ class Login extends Component {
   }
 
   render() {
-    const { email, name } = this.state;
+    const { email, name, spin } = this.state;
     return (
-      <div>
-        <h1>Login</h1>
-        <form>
+      <div
+        className="flex flex-col items-center justify-center bg-purple-400 h-full"
+      >
+        <div className="mb-4">
+          <img src={ logo } className="w-64 h-70 animate-bounce" alt="logo" />
+        </div>
+        <form
+          className="
+            min-h-40 w-80 p-4 drop-shadow-xl
+            rounded flex bg-amber-300 flex-col
+            border-2 border-black
+          "
+        >
           <input
             data-testid="input-player-name"
+            className="
+              m-2 p-2 border-2 focus:outline-none
+              hover:border-4 rounded border-black hover:border-fuchsia-600
+            "
             name="name"
             value={ name }
             type="text"
@@ -59,6 +79,9 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
           <input
+            className="m-2 p-2 border-2 focus:outline-none hover:border-4
+            rounded border-black hover:border-fuchsia-600
+            "
             data-testid="input-gravatar-email"
             name="email"
             value={ email }
@@ -66,22 +89,38 @@ class Login extends Component {
             placeholder="Email"
             onChange={ this.handleChange }
           />
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ this.isPlayButtonDisabled() }
-            onClick={ this.handleSubmit }
-          >
-            Play
-          </button>
+          <section className="flex justify-center">
+            <button
+              data-testid="btn-play"
+              type="button"
+              className="bg-purple-400 cursor-pointer
+                justify-center
+                disabled:brightness-75 mb-2 p-2 w-32 border-2 border-black
+                font-bold text-amber-300 rounded flex items-center gap-2
+              "
+              disabled={ this.isPlayButtonDisabled() }
+              onClick={ this.handleSubmit }
+            >
+              {this.isPlayButtonDisabled() === false ? (<FaPlay />) : ''}
+              Play
+            </button>
+          </section>
+          <section className="flex justify-center">
+            <button
+              type="button"
+              className="bg-purple-400 p-2 w-32 border-2 font-bold gap-2
+                justify-center
+                text-amber-300 border-black rounded flex items-center cursor-pointer
+              "
+              data-testid="btn-settings"
+              onClick={ () => this.goToSettings() }
+            >
+              <FiSettings />
+              Settings
+            </button>
+          </section>
         </form>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => this.goToSettings() }
-        >
-          Settings
-        </button>
+        <Spin isTrue={ spin } />
       </div>
     );
   }
