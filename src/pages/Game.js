@@ -179,7 +179,7 @@ class Game extends Component {
           data-testid="correct-answer"
           type="button"
           onClick={ () => this.handleClickAnswer(answer) }
-          className="bg-amber-300 p-2 mx-8 transition hover:scale-105 bg-green-600  disabled:hover:scale-100 rounded border-2 border-black text-black font-bold disabled:brightness-75"
+          className="bg-amber-300 p-2 mx-8 transition hover:scale-105 disable:bg-green-600  disabled:hover:scale-100 rounded border-2 border-black text-black font-bold disabled:brightness-75"
           disabled={ buttonDisable }
         >
           {answer.answer}
