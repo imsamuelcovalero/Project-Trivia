@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FiClock } from 'react-icons/fi';
+import { decode } from 'he';
 import Header from '../components/Header';
 import getQuestions from '../helpers/questionsAPI';
 import { saveUserScore, saveUserAssertion } from '../redux/actions/index';
@@ -168,7 +169,7 @@ class Game extends Component {
             disabled={ buttonDisable }
             className="bg-amber-300 p-2 mx-8 hover:scale-105 transition disabled:bg-red-400 disabled:text-white disabled:hover:scale-100 rounded border-2 border-black text-black font-bold disabled:brightness-75"
           >
-            {answer.answer}
+            {decode(answer.answer)}
           </button>
         );
       }
@@ -182,7 +183,7 @@ class Game extends Component {
           className="bg-amber-300 p-2 mx-8 transition hover:scale-105 disable:bg-green-600  disabled:hover:scale-100 rounded border-2 border-black text-black font-bold disabled:brightness-75"
           disabled={ buttonDisable }
         >
-          {answer.answer}
+          {decode(answer.answer)}
         </button>
       );
     });
