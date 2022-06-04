@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { decode } from 'he';
 
 function CardQuestion(props) {
   const { question, category, answerButtonSetup } = props;
@@ -12,7 +13,7 @@ function CardQuestion(props) {
         data-testid="question-text"
         className="my-4 mx-2"
       >
-        { question }
+        { decode(question) }
       </div>
       <div
         className="flex flex-col gap-2 my-10"
