@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import saveRanking from '../helpers/saveRanking';
+import { saveRanking } from '../helpers/saveRanking';
 import Header from '../components/Header';
 import cryCat from '../cryCat.jpeg';
 import catLaugh from '../catLaugh.gif';
