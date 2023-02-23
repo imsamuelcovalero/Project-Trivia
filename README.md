@@ -30,7 +30,7 @@ Este projeto utiliza as seguintes tecnologias e ferramentas:
 
 - [React.js com classes](https://reactjs.org/docs/getting-started.html) | Biblioteca para criar interfaces de usuário.
 - [Tailwind CSS](https://tailwindcss.com/) | Biblioteca para estilização do CSS.
-- [API de Trivia](https://economia.awesomeapi.com.br/json/all) | API utilizada para obter informações sobre cotações de moedas e criptomoedas.
+- [API de Trivia](https://economia.awesomeapi.com.br/json/all) | API utilizada para obter perguntas e respostas atualizadas para o jogo..
 - [Redux](https://redux.js.org/) | Biblioteca de gerenciamento de estado.
 - [Trello](https://trello.com/) | Ferramenta de gerenciamento de tarefas.
 
