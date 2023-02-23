@@ -3,7 +3,7 @@
 Trivia é uma aplicação em React.js produzida em grupo, que desafia os usuários a responder a uma sequência de perguntas de múltipla escolha sobre diversos temas em um tempo limitado de 30 segundos por questão. A aplicação registra a escolha correta das respostas e o tempo de resposta, culminando em um score total exibido ao final das 5 perguntas. Além disso, os usuários podem consultar o ranking com outros scores armazenados no Local Storage.
 
 ## Sumário
-- [Bem-vindo ao projeto Metawallet](#bem-vindo-ao-projeto-trivia)
+- [Bem-vindo ao projeto Trivia](#bem-vindo-ao-projeto-trivia)
 - [Preview](#preview)
 - [Contexto](#contexto)
 - [Tecnologias e Ferramentas Utilizadas](#tecnologias-e-ferramentas-utilizadas)
@@ -30,7 +30,7 @@ Este projeto utiliza as seguintes tecnologias e ferramentas:
 
 - [React.js com classes](https://reactjs.org/docs/getting-started.html) | Biblioteca para criar interfaces de usuário.
 - [Tailwind CSS](https://tailwindcss.com/) | Biblioteca para estilização do CSS.
-- [API de economia/cotações](https://economia.awesomeapi.com.br/json/all) | API utilizada para obter informações sobre cotações de moedas e criptomoedas.
+- [API de Trivia](https://economia.awesomeapi.com.br/json/all) | API utilizada para obter informações sobre cotações de moedas e criptomoedas.
 - [Redux](https://redux.js.org/) | Biblioteca de gerenciamento de estado.
 - [Trello](https://trello.com/) | Ferramenta de gerenciamento de tarefas.
 
