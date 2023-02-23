@@ -14,7 +14,13 @@ Trivia é uma aplicação em React.js produzida em grupo, que desafia os usuári
  
 ## Preview
 
-[![Preview](https://img.youtube.com/vi/2uGFmFM2zy8/0.jpg)](https://www.youtube.com/watch?v=2uGFmFM2zy8)
+**Visualização para mobile e mac:**
+
+[![Preview for mobile and mac](https://img.youtube.com/vi/2uGFmFM2zy8/0.jpg)](https://www.youtube.com/watch?v=2uGFmFM2zy8)
+
+**Visualização para linux:**
+
+https://user-images.githubusercontent.com/98184355/220933597-d4c7dc2e-fa7f-4a91-8702-89d9be2d3f0c.mp4
 
 ## Contexto
 A aplicação Trivia é uma implementação do famoso jogo de perguntas e respostas, em que o usuário pode:
