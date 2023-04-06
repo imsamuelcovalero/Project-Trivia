@@ -2,7 +2,7 @@
 
 Trivia é uma aplicação em React.js produzida em grupo, que desafia os usuários a responder a uma sequência de perguntas de múltipla escolha sobre diversos temas em um tempo limitado de 30 segundos por questão. A aplicação registra a escolha correta das respostas e o tempo de resposta, culminando em um score total exibido ao final das 5 perguntas. Além disso, os usuários podem consultar o ranking com outros scores armazenados no Local Storage.
 > - Veja o post sobre a aplicação [no LinkedIn aqui.](https://www.linkedin.com/posts/samuelcovalero_frontend-trybe-redux-activity-6962143773489311744-H73w?utm_source=share&utm_medium=member_desktop)
-> - Acesse o [deeploy da aplicação aqui](https://project-trivia-dun.vercel.app/)
+> - Acesse o [deploy da aplicação aqui](https://project-trivia-dun.vercel.app/)
 <details>
 <summary>Informações para utilizar a aplicação no deploy</summary><br>
  
@@ -12,7 +12,7 @@ Trivia é uma aplicação em React.js produzida em grupo, que desafia os usuári
 
 ## Sumário
 - [Bem-vindo ao projeto Trivia](#bem-vindo-ao-projeto-trivia)
-- [Preview](#preview)
+- [Visualização](#visualização)
 - [Contexto](#contexto)
 - [Tecnologias e Ferramentas Utilizadas](#tecnologias-e-ferramentas-utilizadas)
 - [Instalação e Execução](#instalação-e-execução)
