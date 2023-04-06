@@ -2,6 +2,14 @@
 
 Trivia é uma aplicação em React.js produzida em grupo, que desafia os usuários a responder a uma sequência de perguntas de múltipla escolha sobre diversos temas em um tempo limitado de 30 segundos por questão. A aplicação registra a escolha correta das respostas e o tempo de resposta, culminando em um score total exibido ao final das 5 perguntas. Além disso, os usuários podem consultar o ranking com outros scores armazenados no Local Storage.
 > Acesse o [deeploy da aplicação aqui](https://project-trivia-dun.vercel.app/)
+> - Veja o post sobre a aplicação [no LinkedIn aqui.](https://www.linkedin.com/posts/samuelcovalero_frontend-trybe-redux-activity-6962143773489311744-H73w?utm_source=share&utm_medium=member_desktop)
+> - Acesse o [deeploy da aplicação aqui](https://project-trivia-dun.vercel.app/)
+<details>
+<summary>Informações para utilizar a aplicação no deploy</summary><br>
+ 
+ - Para logar, você deve informar um nome de usuário com ao menos uma letra e um email no padrão `user@email.com`.
+ 
+</details>
 
 ## Sumário
 - [Bem-vindo ao projeto Trivia](#bem-vindo-ao-projeto-trivia)
@@ -13,15 +21,13 @@ Trivia é uma aplicação em React.js produzida em grupo, que desafia os usuári
  - [Git, GitHub e Histórico de Commits](#git-github-e-histórico-de-commits)
  - [Lint](#lint)
  
-## Preview
+## Visualização
 
-**Visualização para mobile e mac:**
+<div align="center">
 
-[![Preview for mobile and mac](https://img.youtube.com/vi/2uGFmFM2zy8/0.jpg)](https://www.youtube.com/watch?v=2uGFmFM2zy8)
+![trivia](https://user-images.githubusercontent.com/98184355/230408639-9667366b-03ee-4916-8936-454b4cee475b.gif)
 
-**Visualização para linux:**
-
-https://user-images.githubusercontent.com/98184355/220933597-d4c7dc2e-fa7f-4a91-8702-89d9be2d3f0c.mp4
+</div>
 
 ## Contexto
 A __aplicação Trivia__ é uma implementação do famoso jogo de perguntas e respostas, em que o usuário pode:
