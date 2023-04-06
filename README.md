@@ -53,12 +53,12 @@ O React.js foi escolhido por ser uma das bibliotecas mais populares e amplamente
 ```
 git clone git@github.com:imsamuelcovalero/Project-Trivia.git
 ```
-### Install dependencies
+### Instalar dependências
 ```
 cd Project-Trivia
 npm install
 ```
-### Run the application
+### Rodar a aplicação
 ```
 cd Project-Trivia
 npm start
